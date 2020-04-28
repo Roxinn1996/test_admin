@@ -147,7 +147,8 @@ export const constantRoutes = [
         path:'edit',
         name:'Edit',
         hidden:true,
-        component:()=>import('@/views/goods/components/edit.vue')
+        component:()=>import('@/views/goods/components/edit.vue'),
+        meta: { title: '增加',icon: 'link' }
       }
     ]
   },

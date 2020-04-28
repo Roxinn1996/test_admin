@@ -1,65 +1,70 @@
 <template>
-  <div>
-     <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column align="center" label="ID" width="95" prop="id"  sortable="custom">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
-      
-      <el-table-column label="商品名称">
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
+  <div class="app-container">
+   
+       <div class="tips">
+        <el-button  @click="addClick" type="primary" icon="el-icon-plus">增加</el-button>
+       </div>
+   
+      <el-table
+        v-loading="listLoading"
+        :data="list"
+        element-loading-text="Loading"
+        border
+        fit
+        highlight-current-row
+      >
+        <el-table-column align="center" label="ID" width="95" prop="id"  sortable="custom">
+          <template slot-scope="scope">
+            {{ scope.row.id }}
+          </template>
+        </el-table-column>
+        
+        <el-table-column label="商品名称">
+          <template slot-scope="scope">
+            {{ scope.row.name }}
+          </template>
+        </el-table-column>
 
-      <el-table-column label="兑换所需积分" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.jifen }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column label="兑换所需积分" width="110" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.jifen }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column label="库存" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.num }}
-        </template>
-      </el-table-column>
+        <el-table-column label="库存" width="110" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.num }}
+          </template>
+        </el-table-column>
 
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column>
+        <el-table-column class-name="status-col" label="状态" width="110" align="center">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
+          </template>
+        </el-table-column>
 
-      <el-table-column align="center" prop="created_at" label="更改时间" width="200">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.update_time}}</span>
-        </template>
-      </el-table-column>
+        <el-table-column align="center" prop="created_at" label="更改时间" width="200">
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span>{{ scope.row.update_time}}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            编辑
-          </el-button>
-  
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
+        <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
+          <template slot-scope="{row}">
+            <el-button type="primary" size="mini" @click="handleUpdate(row)">
+              编辑
+            </el-button>
+    
+            <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
 
-    </el-table>
+      </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"   @pagination="getData"/>
+      <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"   @pagination="getData"/>
   </div>
 </template>
 
@@ -118,6 +123,9 @@ export default {
     },
     handleModifyStatus(){
 
+    },
+    addClick(){
+      this.$router.push('/goods/edit')
     }
      
   },
@@ -129,4 +137,7 @@ export default {
 
 <style scoped>
 
+.tips{
+  margin-bottom:  30px;
+}
 </style>
