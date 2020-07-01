@@ -149,7 +149,13 @@ export const constantRoutes = [
         hidden:true,
         component:()=>import('@/views/goods/components/edit.vue'),
         meta: { title: '增加',icon: 'link' }
-      }
+      },
+      {
+        path:'demo',
+        name:'demo',
+        component:()=>import('@/views/goods/demo.vue'),
+        meta: { title: '测试',icon: 'link' }
+      },
     ]
   },
 

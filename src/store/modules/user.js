@@ -6,7 +6,12 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    showpage:false,
+    demoObj:{
+      text:'哈哈',
+      age:'00'
+    }
   }
 }
 
@@ -24,7 +29,15 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_SHOWPAGE:(state,showpage)=>{
+    state.showpage = showpage
+
+  },
+  SET_DEMOOBJ:(state,demoObj)=>{
+    state.demoObj.text = demoObj
   }
+
 }
 
 const actions = {

@@ -39,14 +39,14 @@
 
         <el-table-column class-name="status-col" label="状态" width="110" align="center">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
+            <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status === '1' ? '发布' : '未发布' }}</el-tag>
           </template>
         </el-table-column>
 
         <el-table-column align="center" prop="created_at" label="更改时间" width="200">
           <template slot-scope="scope">
             <i class="el-icon-time" />
-            <span>{{ scope.row.update_time}}</span>
+            <span>{{ parseTimeFun(scope.row.update_time)}}</span>
           </template>
         </el-table-column>
 
@@ -72,7 +72,7 @@
 //axios
 import {goodsList} from '@/api/goods';
 //工具
-import { parseTime } from '@/utils'
+import { formatTime } from '@/utils'
 //公共组件
 import Pagination from '@/components/Pagination'
 
@@ -101,12 +101,15 @@ export default {
   },
   filters:{
       statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
+      // const statusMap = {
+      //   published: 'success',
+      //   draft: 'gray',
+      //   deleted: 'danger'
+      // }
+      const statusMap2 = ['danger','success']
+
+      
+      return statusMap2[status]
     }
   },
   methods:{
@@ -117,6 +120,11 @@ export default {
         this.total = res.data.count;
         this.listLoading = false;
     })
+    },
+    //时间戳转日期格式
+    parseTimeFun(time){
+
+      return  formatTime(time)
     },
     handleUpdate(row){
       console.log(row);
