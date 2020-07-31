@@ -24,18 +24,38 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   // lintOnSave: false,
   productionSourceMap: false,
+  //搭建代理服务
   devServer: {
     port: port,
     open: true,
     overlay: {
       warnings: false,
       errors: true
+    },
+    proxy:{
+      "/cmdy": {
+          target: "http://39.100.91.193:30004",
+          changeOrigin: true,
+          ws: true,
+          pathRewrite: {
+              "^/cmdy": "/cmdy_multi"
+          },
+          cookieDomainRewrite: {
+              "*": ""
+          },
+          onProxyReq(proxyReq, req, res) {
+              var cok = 'unPrintMode=messageMode; JSESSIONID=FD344AC4801F630E8504DE563B7DCAD9-n1; _ati=3878100356542; loadPaixu=1; loadpagesize=20; loadShowHebin=1; loadShowSPVal=1; submenu1=1; submenu2=1; submenu5=2; submenu6=1; submenu4=1'
+              req.headers['cookie'] = cok
+              proxyReq.setHeader('Cookie', cok)
+              proxyReq.setHeader('Referer', 'http://39.100.91.193:30004');
+          }
+      },
     },
     before: require('./mock/mock-server.js')
   },

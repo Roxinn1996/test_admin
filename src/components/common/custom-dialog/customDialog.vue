@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="visibleDialog" :title="title">
+  <el-dialog :visible.sync="visibleDialog" :title="title" v-bind="$attrs" v-on="$listeners">  
     <!-- 内容部分用默认插槽 -->
     <slot></slot>
     <template #footer>
@@ -20,6 +20,7 @@
 
 export default {
   name: 'customDialog',
+  inheritAttrs:false,
   props:{
     // 对外暴露visible属性，用于显示隐藏弹框
     visible:{
@@ -30,6 +31,9 @@ export default {
       type:String,
       default:''
     }
+  },
+  updated(){
+    console.log('子组件')
   },
   methods: {
     // 对外抛出cancel事件

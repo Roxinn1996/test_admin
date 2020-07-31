@@ -36,6 +36,9 @@ const mutations = {
   },
   SET_DEMOOBJ:(state,demoObj)=>{
     state.demoObj.text = demoObj
+  },
+  SET_DEMOOBJAGE:(state,demoObj)=>{
+    state.demoObj.age = demoObj
   }
 
 }

@@ -8,11 +8,18 @@
       <el-table
         v-loading="listLoading"
         :data="list"
+        @row-click="rowClick"
         element-loading-text="Loading"
         border
         fit
         highlight-current-row
       >
+        <el-table-column label="序号"  width="70" align='center'>
+          <template slot-scope="scope">
+            <el-checkbox label="" v-model="scope.row.checked"></el-checkbox>
+          </template>
+        </el-table-column>
+
         <el-table-column align="center" label="ID" width="95" prop="id"  sortable="custom">
           <template slot-scope="scope">
             {{ scope.row.id }}
@@ -52,11 +59,11 @@
 
         <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
           <template slot-scope="{row}">
-            <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            <el-button type="primary" size="mini" @click.stop="handleUpdate(row)">
               编辑
             </el-button>
     
-            <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(row,'deleted')">
+            <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click.stop="handleModifyStatus(row,'deleted')">
               删除
             </el-button>
           </template>
@@ -73,6 +80,7 @@
 import {goodsList} from '@/api/goods';
 //工具
 import { formatTime } from '@/utils'
+import dayjs from 'dayjs'
 //公共组件
 import Pagination from '@/components/Pagination'
 
@@ -99,6 +107,10 @@ export default {
   created(){
     this.getData();
   },
+  mounted(){
+      console.log(dayjs())
+      console.log(dayjs.unix(1585560796)) //其实就是 获取时间data  -> 格式等于这个 dayjs()
+  },
   filters:{
       statusFilter(status) {
       // const statusMap = {
@@ -117,20 +129,32 @@ export default {
       this.listLoading = true;
       goodsList(this.listQuery).then(res=>{
         this.list = res.data.data;
+        this.list.forEach(v=>{
+          v.checked = true;
+        })
         this.total = res.data.count;
         this.listLoading = false;
     })
+    
+    },
+    rowClick(row){
+      console.log(row)
+      row.checked = !row.checked;
+      this.list.push();
     },
     //时间戳转日期格式
     parseTimeFun(time){
-
-      return  formatTime(time)
+      // return time
+      // return  formatTime(time)  //el-admin 自带的工具
+       return dayjs.unix(time).format('YYYY年MM月DD日 HH:mm:ss')
+      // return dayjs.unix(time).format('YYYY-MM-DD HH:mm:ss') 
     },
     handleUpdate(row){
       console.log(row);
+      this.$message({type: 'success',message: '编辑成功!',offset: 300,duration: 1500 });
     },
     handleModifyStatus(){
-
+      this.$message({type: 'success',message: '删除成功!',offset: 300,duration: 1500 });
     },
     addClick(){
       this.$router.push('/goods/edit')

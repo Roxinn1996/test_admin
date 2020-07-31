@@ -156,6 +156,12 @@ export const constantRoutes = [
         component:()=>import('@/views/goods/demo.vue'),
         meta: { title: '测试',icon: 'link' }
       },
+      {
+        path:'test',
+        name:'test',
+        component:()=>import('@/views/goods/test.vue'),
+        meta: { title: 'vuex测试',icon: 'link' }
+      },
     ]
   },
 
@@ -164,7 +170,8 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  mode: 'history', // require service support
+  // mode: 'history', // require service support
+  mode: 'hash', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

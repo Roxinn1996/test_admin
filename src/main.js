@@ -4,7 +4,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+// import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
@@ -14,6 +14,10 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+
+//复制包
+import Clipboard from 'clipboard';
+
 
 /**
  * If you don't want to use mock-server
@@ -28,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 
+
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
@@ -39,5 +44,18 @@ new Vue({
   el: '#app',
   router,
   store,
+  mounted(){
+    let clipboard = new Clipboard('.CopyTextKeyWord');
+
+    clipboard.on('success', (e)=> {
+      this.$message({
+          message: `复制成功：${e.text}`,
+          type: 'success',
+          offset: 300,
+          duration: 2000
+      });
+        e.clearSelection();
+    });
+  },
   render: h => h(App)
 })
